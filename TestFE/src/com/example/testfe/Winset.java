@@ -283,8 +283,10 @@ public class Winset extends MainActivity{
 			}
 		}
 		
-		if (availableBt = true){
+		if (availableBt == true){
 			randomId = btIdList[new Random().nextInt(btIdList.length)];
+			
+			//testmap.get(randomId)
 			if (!(testmap.get(randomId).equals(Constant.DASH))){
 				getRandomBtId(btIdList, testmap);
 			}			
@@ -293,14 +295,11 @@ public class Winset extends MainActivity{
 //			System.out.println("game over");
 //			System.exit(0);
 //		}
+		Log.d("Hui", "randomId = " + randomId);
 		return randomId;
+		
 	}
 	
-	protected int Add(int a, int b){
-		int sum;
-		sum = a + b;
-		return sum;
-	}
 	
 	
 //	updateWinSet(winSet, testMap);

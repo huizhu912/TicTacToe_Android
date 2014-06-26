@@ -5,18 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.testfe.Constant;
-import com.example.testfe.R;
-import com.example.testfe.Winset;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -44,6 +39,7 @@ public class MainActivity extends Activity {
 	
 	TextView tv;
 	TextView tv2;
+	ImageView iv;
 	Button button0;
 	Button button1;
 	Button button2;
@@ -53,6 +49,7 @@ public class MainActivity extends Activity {
 	Button button6;
 	Button button7;
 	Button button8;
+	Button button9;
 	
 	int[] btIdList = {R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9};
 
@@ -63,6 +60,17 @@ public class MainActivity extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+//		if (savedInstanceState != null){
+//			Button bt;
+//			for (String key :  savedInstanceState.keySet()){
+//				testMap.put(Integer.valueOf(key), savedInstanceState.getString(key));
+//				bt = (Button)findViewById(Integer.valueOf(key));
+//				bt.setText(savedInstanceState.getString(key));
+//			}
+//			
+//		}
+		
 				
 		button0 = (Button)findViewById(R.id.button1);
 		button1 = (Button)findViewById(R.id.button2);
@@ -160,6 +168,12 @@ public class MainActivity extends Activity {
 		tv.setTextColor(getResources().getColor(R.color.textColor));
 	}
 	
+	
+	protected void uploadImage(int imgId){
+		iv = (ImageView)findViewById(R.id.imageView1);
+		iv.setImageResource(imgId);
+	}
+	
 	protected String getWinSetString(List<Map<Integer, String>> winset){
 		String s = "";
 		
@@ -203,6 +217,18 @@ public class MainActivity extends Activity {
 	}
 	
 	
+	public void onSaveInstanceState(Bundle savedInstanceState){
+		Button bt;
+	
+		for (int key : btIdList) {
+			bt = (Button)findViewById(key);
+			savedInstanceState.putString(String.valueOf(key), bt.getText().toString());
+		}
+		
+		super.onSaveInstanceState(savedInstanceState);
+
+	}
+	
 	
 	protected void setListener(Button bt){
 			
@@ -237,11 +263,13 @@ public class MainActivity extends Activity {
 				
 				
 				if (w.checkState(gameState, turn) == 1) {
-					printMessage("You win");
+					printMessage("You win!");
+					uploadImage(R.drawable.win_smiley);
 					disableButtons(btIdList);
 				}
 				else if ((w.checkState(gameState, turn) == 2)){
-					printMessage("You lost");
+					printMessage("You lost!");
+					uploadImage(R.drawable.devil_smiley);
 					disableButtons(btIdList);
 				}
 				else if (turn == 1) {
@@ -249,7 +277,7 @@ public class MainActivity extends Activity {
 					printMessage("p2BtId: " + p2BtId);
 					
 					if (p2BtId == -2){
-						printMessage("Game Over");
+						printMessage("Stalemate Game Over!");
 						disableButtons(btIdList);
 					}
 					else {
@@ -264,10 +292,12 @@ public class MainActivity extends Activity {
 						w.updateState(winSet, gameState);		
 						if (w.checkState(gameState, turn) == 1) {
 							printMessage("You win");
+							uploadImage(R.drawable.win_smiley);
 							disableButtons(btIdList);
 						}
 						else if ((w.checkState(gameState, turn) == 2)){
-							printMessage("You lost");
+							printMessage("You lost!");
+							uploadImage(R.drawable.devil_smiley);
 							disableButtons(btIdList);
 						}
 						else {
